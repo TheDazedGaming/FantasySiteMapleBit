@@ -61,8 +61,11 @@ if(isset($_GET['fix']) && $_GET['fix'] === "unstuck") {
 elseif(isset($_GET['fix']) && $_GET['fix'] == "dc") {
 	$name = $_SESSION['name'];
 	$acc = $mysqli->query("SELECT * FROM `accounts` WHERE `name`='".$name."'")->fetch_assoc();
-	if($acc['loggedin']=="0") {
-		$text = "<div class=\"alert alert-info\">You are already logged out in-game.</div>";
+	if($acc['loggedin']=="2") {
+		$text = "<div class=\"alert alert-info\">You need to log out in-game before trying to fix your account.</div>";
+	}
+	else if ($acc['loggedin']=="0") {
+		$text = "<div class=\"alert alert-info\">You're account is already logged out.</div>";
 	}
 	else {
 		$s = $mysqli->query("UPDATE accounts SET loggedin='0' WHERE name='".$_SESSION['name']."'") or die();
